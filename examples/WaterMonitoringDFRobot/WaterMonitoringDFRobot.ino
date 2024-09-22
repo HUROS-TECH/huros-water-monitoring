@@ -14,13 +14,15 @@ HurosWaterMonitoring hwm(dallas);
 #define ph7 2.691
 
 // Calibration TDS
-#define CALIBRATION_COEF  28.5
+#define TdsFactor 0.5
+#define KVAL_CALIBRATION  0.60
+
 
 
 void setup() {
   Serial.begin(9600);
   hwm.DallasInit();
-  hwm.TDSInit(tds_pin, CALIBRATION_COEF);
+  hwm.TDSDFRobotInit(tds_pin,TdsFactor, KVAL_CALIBRATION);
   hwm.PHInit(ph_pin, ph4, ph7);
 
 }
@@ -28,7 +30,7 @@ void setup() {
 void loop() {
   float temp = hwm.DallasGetTemperatureC();
   float ph = hwm.PHGetData();
-  float tds = hwm.TDSGetData(temp);
+  float tds = hwm.TDSDFRobotGetData(temp);
 
   Serial.print("Temperature C : ");
   Serial.print(temp);

@@ -1,28 +1,27 @@
-#include <EEPROM.h>
-#include "GravityTDS.h"
+#include <HurosWaterMonitoring.h>
 
-#define TdsSensorPin 34
-GravityTDS gravityTds;
+HurosWaterMonitoring hwm;
+// Initial Pin
+#define tds_pin 34
 
-float temperature = 30,tdsValue = 0;
+// Calibration TDS
+#define CALIBRATION_COEF  1.0
+#define VALUE_DESIRED 342
 
-void setup()
-{
-    Serial.begin(9600);
-    gravityTds.setPin(TdsSensorPin);
-    gravityTds.setKvalueAddress(1);
-    gravityTds.setAref(3.3);  //reference voltage on ADC, default 5.0V on Arduino UNO
-    gravityTds.setAdcRange(4096);  //1024 for 10bit ADC;4096 for 12bit ADC
-    gravityTds.begin();  //initialization
+
+void setup() {
+  Serial.begin(9600);
+  hwm.TDSInit(tds_pin, CALIBRATION_COEF);
+
 }
 
-void loop()
-{
-    //temperature = readTemperature();  //add your temperature sensor and read it
-    gravityTds.setTemperature(temperature);  // set the temperature and execute temperature compensation
-    gravityTds.update();  //sample and calculate
-    tdsValue = gravityTds.getTdsValue();  // then get the value
-    Serial.print(tdsValue,0);
-    Serial.println("ppm");
-    delay(1000);
+void loop() {
+  float tds = hwm.TDSGetData(30);
+  float coef = VALUE_DESIRED/tds;
+  Serial.print("TDS(ppm) : ");
+  Serial.print(tds);
+  Serial.print("\tCOEF : ");
+  Serial.print(coef);
+
+  Serial.println();
 }
