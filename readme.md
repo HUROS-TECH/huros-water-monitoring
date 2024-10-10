@@ -15,4 +15,4 @@ TDS
 - copy K value and paste in KVAL_CALIBRATION(WaterMonitoring.ino)
 
 ### Copyright 
-> Huros Robotics
+> Huros Tech
