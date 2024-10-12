@@ -1,6 +1,6 @@
 /* 
- * Copyright HUROS ROBOTICS
- * Maintenance Danu andrean
+ * Copyright HUROS TECH
+ * Maintenance Danmirror
  * Year 2024
  * 
 */
